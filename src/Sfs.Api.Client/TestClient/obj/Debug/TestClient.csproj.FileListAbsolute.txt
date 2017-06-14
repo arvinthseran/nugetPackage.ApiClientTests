@@ -1,0 +1,4 @@
+C:\SFA\nugetPackage.ApiClientTests\src\Sfs.Api.Client\TestClient\bin\Debug\TestClient.dll
+C:\SFA\nugetPackage.ApiClientTests\src\Sfs.Api.Client\TestClient\bin\Debug\TestClient.pdb
+C:\SFA\nugetPackage.ApiClientTests\src\Sfs.Api.Client\TestClient\obj\Debug\TestClient.dll
+C:\SFA\nugetPackage.ApiClientTests\src\Sfs.Api.Client\TestClient\obj\Debug\TestClient.pdb
