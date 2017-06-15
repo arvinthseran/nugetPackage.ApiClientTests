@@ -3,12 +3,10 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sfa.ApiClient.Tests
 {
-    public static class ApiClientTestCaseData
+    public static class ApiClientNuGetPackageData
     {
 
         //Connect to the official package repository
@@ -21,17 +19,18 @@ namespace Sfa.ApiClient.Tests
 
         public static IEnumerable<TestCaseData> GetPackages()
         {
-            foreach (var item in new string[][] {
-                new string[] { "SFA.DAS.Providers.Api.Client","ProviderApiClient" },
-                new string[] { "SFA.DAS.AssessmentOrgs.Api.Client","AssessmentOrgsApiClient" },
-                new string[] { "SFA.DAS.Apprenticeships.Api.Client", "StandardApiClient" },
-                new string[] { "SFA.DAS.Apprenticeships.Api.Client", "FrameworkApiClient" },
-            })
+            foreach (var item in new[] {
+                "SFA.DAS.Providers.Api.Client",
+                "SFA.DAS.AssessmentOrgs.Api.Client",
+                "SFA.DAS.Apprenticeships.Api.Client",
+                "SFA.Roatp.Api.Client"
+            }
+            )
             {
-                var versions = FindPackage(item[0]);
+                var versions = FindPackage(item);
                 foreach (var version in versions)
                 {
-                    yield return new TestCaseData(version, item[0], item[1]);
+                    yield return new TestCaseData(version, item);
                 }
             }
         }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sfa.ApiClient.Tests
 {
@@ -10,27 +6,44 @@ namespace Sfa.ApiClient.Tests
     {
         private static string ukprn = "10000020";
         private static string organisationid = "EPA0001";
-        private static string standardid = "1";
+        private static string standardid = "150";
+        private static string frameworkid = "539";
+        private static string pathwaycode = "3";
+        private static string programmeType = "3";
+
+        public static string GetbaseUri(string packageinTest)
+        {
+            return packageinTest == "SFA.Roatp.Api.Client" ? "https://roatp.apprenticeships.sfa.bis.gov.uk" : "http://das-prd-apprenticeshipinfoservice.cloudapp.net";
+        }
 
         public static object GetDefaultParamValue(string paramName, string paramtypeName)
         {
-            switch (paramtypeName)
+            try
             {
-                case "Int16":
-                case "Int32":
-                case "Int64":
-                case "int":
-                    return int.Parse(GetbyParamName(paramName));
+                switch (paramtypeName)
+                {
+                    case "Int16":
+                    case "Int32":
+                    case "Int64":
+                    case "int":
+                        return int.Parse(GetbyParamName(paramName));
 
-                case "String":
-                case "string":
-                    return GetbyParamName(paramName).ToString();
+                    case "String":
+                    case "string":
+                        return GetbyParamName(paramName).ToString();
 
-                case "long":
-                case "Long":
-                    return long.Parse(GetbyParamName(paramName));
+                    case "long":
+                    case "Long":
+                        return long.Parse(GetbyParamName(paramName));
+                }
+                return null;
             }
-            return null;
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Exception occured when trying to get Default value for {paramtypeName} {paramName} ");
+                throw ex;
+            }
+           
         }
 
         private static string GetbyParamName(string paramName)
@@ -45,7 +58,19 @@ namespace Sfa.ApiClient.Tests
                     return organisationid;
 
                 case "standardid":
+                case "standardcode":
                     return standardid;
+
+                case "frameworkid":
+                case "frameworkcode":
+                    return frameworkid;
+
+                case "pathwaycode":
+                    return pathwaycode;
+
+                case "programmetype":
+                case "progamtype":
+                    return programmeType;
             }
             return null;
         }
