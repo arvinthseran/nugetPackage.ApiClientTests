@@ -17,6 +17,52 @@ namespace Sfa.ApiClient.Tests
             return GetPackages().Where(x => new Version(x.Arguments.First().ToString()) >= new Version("0.10.64"));
         }
 
+        public static IEnumerable<TestCaseData> GetProviderPackages()
+        {
+            foreach (var item in new[] {
+                "SFA.DAS.Providers.Api.Client",
+                "SFA.DAS.Apprenticeships.Api.Client"
+            }
+            )
+            {
+                var versions = FindPackage(item);
+                foreach (var version in versions)
+                {
+                    yield return new TestCaseData(version, item);
+                }
+            }
+        }
+
+        public static IEnumerable<TestCaseData> GetApprenticehsipPackages()
+        {
+            var item = "SFA.DAS.Apprenticeships.Api.Client";
+            var versions = FindPackage(item);
+            foreach (var version in versions)
+            {
+                yield return new TestCaseData(version, item);
+            }
+        }
+
+        public static IEnumerable<TestCaseData> GetAssessmentOrgPackages()
+        {
+            var item = "SFA.DAS.AssessmentOrgs.Api.Client";
+            var versions = FindPackage(item);
+            foreach (var version in versions)
+            {
+                yield return new TestCaseData(version, item);
+            }
+        }
+
+        public static IEnumerable<TestCaseData> GetRoatpPackages()
+        {
+            var item = "SFA.Roatp.Api.Client";
+            var versions = FindPackage(item);
+            foreach (var version in versions)
+            {
+                yield return new TestCaseData(version, item);
+            }
+        }
+
         public static IEnumerable<TestCaseData> GetPackages()
         {
             foreach (var item in new[] {

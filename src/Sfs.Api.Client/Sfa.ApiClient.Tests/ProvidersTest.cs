@@ -41,8 +41,8 @@ namespace Sfa.ApiClient.Tests
         [Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetPackages")]
         public void CheckApiClients(string version, string packageinTest)
         {
-            List<PackageIdentifier> nugetPackagesdlls = new List<PackageIdentifier>();
-            List<PackageDependency> packageDepencies = new List<PackageDependency>();
+            var nugetPackagesdlls = new List<PackageIdentifier>();
+            var packageDepencies = new List<PackageDependency>();
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             string dir = System.IO.Path.GetDirectoryName(assembly.Location);
@@ -114,10 +114,10 @@ namespace Sfa.ApiClient.Tests
             packageDepencies.ForEach(x => value.LoadFromAssembly($"{dir}\\{x}.dll"));
             var clientassembly = value.LoadFromAssembly($"{dir}\\{packageinTest}.dll");
             Console.WriteLine($"Client Test Assembly runtimeversion : {clientassembly.FullName}");
-            var clientTypes = clientassembly.ExportedTypes.Where(x => x.IsPublic == true && x.IsInterface == false && x.IsAbstract == false).Select(y => y.Name);
+            var publicClasses = clientassembly.ExportedTypes.Where(x => x.IsPublic == true && x.IsInterface == false && x.IsAbstract == false).Select(y => y.Name);
             int excount = 0;
             int testcasecount = 0;
-            foreach (var typeintest in clientTypes)
+            foreach (var typeintest in publicClasses)
             {
                 // skipping execution for Obsolete types in the packages
                 if (packageinTest == "SFA.DAS.Apprenticeships.Api.Client" && typeintest == "ProviderApiClient") 
@@ -131,8 +131,8 @@ namespace Sfa.ApiClient.Tests
                 }
                 var clientType = clientassembly.GetType($"{packageinTest}.{typeintest}");
                 
-                var methodsInfo = clientType.GetMethods().Where(x=> x.DeclaringType?.BaseType?.FullName != "System.Object" && x.DeclaringType?.BaseType != null).ToList();
-                foreach (var methodInfo in methodsInfo.Where(x => !x.Name.EndsWith("Async")))
+                var publicMethods = clientType.GetMethods().Where(x=> x.DeclaringType?.BaseType?.FullName != "System.Object" && x.DeclaringType?.BaseType != null).ToList();
+                foreach (var methodInfo in publicMethods.Where(x => !x.Name.EndsWith("Async")))
                 {
                     var methodName = methodInfo.Name;
                     var parameterInfo = methodInfo.GetParameters().ToList();
@@ -174,6 +174,8 @@ namespace Sfa.ApiClient.Tests
                 }
             }
             Assert.AreEqual(testcasecount, testcasecount - excount, $"{excount} testcases failed, out of {testcasecount} ref logs for more details");
+
+            AppDomain.Unload(domain);
         }
 
         private static object GetDefault(Type type)
