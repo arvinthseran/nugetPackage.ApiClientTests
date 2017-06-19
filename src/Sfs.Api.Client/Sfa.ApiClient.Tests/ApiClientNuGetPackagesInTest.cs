@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Sfa.ApiClient.Tests
 {
-    public static class ApiClientNuGetPackageData
+    public static class ApiClientNuGetPackagesInTest
     {
 
         //Connect to the official package repository

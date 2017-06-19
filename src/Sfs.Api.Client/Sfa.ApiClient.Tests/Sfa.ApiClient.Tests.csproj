@@ -55,7 +55,7 @@
     <Compile Include="PackageIdentifier.cs" />
     <Compile Include="ProvidersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiClientTestCaseData.cs" />
+    <Compile Include="ApiClientNuGetPackagesInTest.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="TypeProxy.cs" />
   </ItemGroup>

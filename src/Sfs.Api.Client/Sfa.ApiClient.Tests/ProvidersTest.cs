@@ -38,7 +38,7 @@ namespace Sfa.ApiClient.Tests
         //{
         //}
 
-        [Test, TestCaseSource(typeof(ApiClientNuGetPackageData), "GetPackages")]
+        [Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetPackages")]
         public void CheckApiClients(string version, string packageinTest)
         {
             List<PackageIdentifier> nugetPackagesdlls = new List<PackageIdentifier>();
@@ -64,16 +64,16 @@ namespace Sfa.ApiClient.Tests
             }
             
             //Find the Package in test
-            var package = ApiClientNuGetPackageData.repo.FindPackage(packageinTest, SemanticVersion.Parse(version));
+            var package = ApiClientNuGetPackagesInTest.repo.FindPackage(packageinTest, SemanticVersion.Parse(version));
 
             //Retrive the dependency packages
             packageDepencies = package.DependencySets.First().Dependencies.ToList();
 
-            var packageManager = new PackageManager(ApiClientNuGetPackageData.repo, tempPath);
+            var packageManager = new PackageManager(ApiClientNuGetPackagesInTest.repo, tempPath);
             foreach (var x in packageDepencies)
             {
                 //Find and install the dependency packages
-                var deppackage = ApiClientNuGetPackageData.repo.FindPackage(x.Id, x.VersionSpec.MinVersion);
+                var deppackage = ApiClientNuGetPackagesInTest.repo.FindPackage(x.Id, x.VersionSpec.MinVersion);
                 packageManager.InstallPackage(deppackage, true, false);
                 nugetPackagesdlls.Add(AddnugetPackagesdlls(x.Id, x.VersionSpec.MinVersion.ToFullString()));
             }
