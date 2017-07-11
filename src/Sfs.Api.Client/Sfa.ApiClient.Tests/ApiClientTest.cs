@@ -10,27 +10,8 @@ using System.Security.Policy;
 namespace Sfa.ApiClient.Tests
 {
     [TestFixture]
-    public class ProvidersTest
+    public class ApiClientTest
     {
-        //[Test]
-        //[Ignore("")]
-        //public void Should()
-        //{
-        //    var clientType = typeof(Class1);
-        //    dynamic client2 = Activator.CreateInstance(typeof(Class1));
-
-        //    Assert.IsTrue(client2.IsValid("test"));
-
-        //    dynamic something = client2.Something("1001");
-        //    foreach (PropertyInfo propertyInfo in something.GetType().GetProperties())
-        //    {
-        //        var obj = propertyInfo.GetGetMethod().Invoke(something, new object[] { });
-        //        dynamic value = Convert.ChangeType(obj, propertyInfo.PropertyType);
-        //        var defaultvalue = GetDefault(propertyInfo.PropertyType);
-        //        Assert.AreNotEqual(defaultvalue, value);
-        //    }
-        //}
-
         //[Test, TestCaseSource(typeof(ApiClientTestCaseData),"GetAsyncPackages")]
         //[Category("async")]
         //[Ignore("")]
@@ -38,9 +19,15 @@ namespace Sfa.ApiClient.Tests
         //{
         //}
 
-        [Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetPackages")]
-        public void CheckApiClients(string version, string packageinTest)
+        // Uncomment below line to test from VS locally
+        //[Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetAssessmentOrgPackages")]
+        [Test]
+        public void CheckApiClients() // string version, string packageinTest
         {
+            var version = TestContext.Parameters["version"];
+            var packageinTest = TestContext.Parameters["packageinTest"];
+            TestContext.WriteLine(version);
+            TestContext.WriteLine(packageinTest);
             var nugetPackagesdlls = new List<PackageIdentifier>();
             var packageDepencies = new List<PackageDependency>();
 

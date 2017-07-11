@@ -8,7 +8,6 @@ namespace Sfa.ApiClient.Tests
 {
     public static class ApiClientNuGetPackagesInTest
     {
-
         //Connect to the official package repository
         public static IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("https://packages.nuget.org/api/v2");
 
@@ -83,8 +82,10 @@ namespace Sfa.ApiClient.Tests
 
         private static IEnumerable<string> FindPackage(string package)
         {
-            //Get the list of all NuGet packages with ID 'SFA.DAS.Providers.Api.Client'       
-            List<IPackage> packages = repo.FindPackagesById(package).ToList();
+
+            //Get the list of all NuGet packages with ID 'SFA.DAS.Providers.Api.Client'    
+            var repo = new PackageRepositoryFactory().CreateRepository("https://packages.nuget.org/api/v2");
+            var packages = repo.FindPackagesById(package).ToList();
 
             //Filter the list of packages that are not Release (Stable) versions
             packages = packages.Where(x => x.IsReleaseVersion() == true && x.IsListed() == true).OrderByDescending(y => y.Version).ToList();
