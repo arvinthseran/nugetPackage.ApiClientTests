@@ -32,6 +32,19 @@ namespace Sfa.ApiClient.Tests
             }
         }
 
+        public static IEnumerable<TestCaseData> GetProviderPreReleasePackage()
+        {
+            foreach (var item in new[] {
+                "SFA.DAS.Providers.Api.Client",
+                "SFA.DAS.Apprenticeships.Api.Client"
+            }
+            )
+            {
+                var versions = FindPackage(item, false);
+                yield return new TestCaseData(versions.First(), item);
+            }
+        }
+
         public static IEnumerable<TestCaseData> GetApprenticehsipPackages()
         {
             var item = "SFA.DAS.Apprenticeships.Api.Client";
@@ -40,6 +53,14 @@ namespace Sfa.ApiClient.Tests
             {
                 yield return new TestCaseData(version, item);
             }
+        }
+
+        public static IEnumerable<TestCaseData> GetApprenticehsipPreReleasePackage()
+        {
+            var item = "SFA.DAS.Apprenticeships.Api.Client";
+            var versions = FindPackage(item, false);
+
+            yield return new TestCaseData(versions.First(), item);
         }
 
         public static IEnumerable<TestCaseData> GetAssessmentOrgPackages()
@@ -80,7 +101,7 @@ namespace Sfa.ApiClient.Tests
             }
         }
 
-        private static IEnumerable<string> FindPackage(string package)
+        private static IEnumerable<string> FindPackage(string package, bool isreleaseversion = true)
         {
 
             //Get the list of all NuGet packages with ID 'SFA.DAS.Providers.Api.Client'    
@@ -88,7 +109,7 @@ namespace Sfa.ApiClient.Tests
             var packages = repo.FindPackagesById(package).ToList();
 
             //Filter the list of packages that are not Release (Stable) versions
-            packages = packages.Where(x => x.IsReleaseVersion() == true && x.IsListed() == true).OrderByDescending(y => y.Version).ToList();
+            packages = packages.Where(x => x.IsReleaseVersion() == isreleaseversion && x.IsListed() == true).OrderByDescending(y => y.Version).ToList();
 
             //Iterate through the list and print the full name of the pre-release packages to console
             return packages.Where(p => p.Version.ToFullString() != "0.9.161").Select(q => q.Version.ToFullString());

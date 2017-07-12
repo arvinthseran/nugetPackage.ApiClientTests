@@ -15,6 +15,23 @@ namespace Sfa.ApiClient.Tests
         {
             return packageinTest == "SFA.Roatp.Api.Client" ? "https://roatp.apprenticeships.sfa.bis.gov.uk" : "http://das-prd-apprenticeshipinfoservice.cloudapp.net";
         }
+        public static string GetbaseUri(string packageinTest, bool isPrd)
+        {
+            if (packageinTest == "SFA.Roatp.Api.Client" && isPrd)
+            {
+                return "https://roatp.apprenticeships.sfa.bis.gov.uk";
+            }
+            else if(packageinTest == "SFA.Roatp.Api.Client" && isPrd == false)
+            {
+                return "https://pp-roatp.apprenticeships.sfa.bis.gov.uk";
+            }
+            else if (packageinTest != "SFA.Roatp.Api.Client" && isPrd == false)
+            {
+                return "http://das-pp-apprenticeshipinfoservice.cloudapp.net";
+            }
+
+            return "http://das-prd-apprenticeshipinfoservice.cloudapp.net";
+        }
 
         public static object GetDefaultParamValue(string paramName, string paramtypeName)
         {

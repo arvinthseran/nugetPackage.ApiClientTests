@@ -20,12 +20,12 @@ namespace Sfa.ApiClient.Tests
         //}
 
         // Uncomment below line to test from VS locally
-        //[Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetAssessmentOrgPackages")]
+        // [Test, TestCaseSource(typeof(ApiClientNuGetPackagesInTest), "GetProviderPreReleasePackage")]
         [Test]
         public void CheckApiClients() // string version, string packageinTest
         {
-            var version = TestContext.Parameters["version"];
-            var packageinTest = TestContext.Parameters["packageinTest"];
+             var version = TestContext.Parameters["version"];
+             var packageinTest = TestContext.Parameters["packageinTest"];
             TestContext.WriteLine(version);
             TestContext.WriteLine(packageinTest);
             var nugetPackagesdlls = new List<PackageIdentifier>();
@@ -73,7 +73,7 @@ namespace Sfa.ApiClient.Tests
             nugetPackagesdlls.Where(x => File.Exists($"{dir}\\{x.packageId}.dll")).ToList().ForEach(y => File.Delete($"{dir}\\{y.packageId}.dll"));
 
             // copy package dlls to dir.
-            var versionInTest = new Version(version);
+            var versionInTest = new Version(version.Replace("-prerelease", string.Empty));
             var dotnet45version = new Version("0.9.140");
             if (versionInTest >= dotnet45version || packageinTest == "SFA.Roatp.Api.Client")
             {
@@ -149,7 +149,7 @@ namespace Sfa.ApiClient.Tests
                     try
                     {
                         testcasecount++;
-                        var client = Activator.CreateInstance(clientType, TestData.GetbaseUri(packageinTest));
+                        var client = Activator.CreateInstance(clientType, TestData.GetbaseUri(packageinTest, !version.Contains("-prerelease")));
                         dynamic result = method.Invoke(client, parameterValues.ToArray());
                         Assert.IsNotNull(result, testcasemessage);
                     }
