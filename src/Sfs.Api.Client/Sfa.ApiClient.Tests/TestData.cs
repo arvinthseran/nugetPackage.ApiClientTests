@@ -7,30 +7,22 @@ namespace Sfa.ApiClient.Tests
         private static string ukprn = "10000020";
         private static string organisationid = "EPA0001";
         private static string standardid = "150";
-        private static string frameworkid = "539";
+        private static string frameworkid = "539-3-3";
+        private static string frameworkcode = "539";
         private static string pathwaycode = "3";
         private static string programmeType = "3";
 
-        public static string GetbaseUri(string packageinTest)
+        private static string GetProdbaseUri(string packageinTest)
         {
             return packageinTest == "SFA.Roatp.Api.Client" ? "https://roatp.apprenticeships.sfa.bis.gov.uk" : "http://das-prd-apprenticeshipinfoservice.cloudapp.net";
         }
+        private static string GetPreprodbaseUri(string packageinTest)
+        {
+            return packageinTest == "SFA.Roatp.Api.Client" ? "https://pp-roatp.apprenticeships.sfa.bis.gov.uk" : "http://das-pp-apprenticeshipinfoservice.cloudapp.net";
+        }
         public static string GetbaseUri(string packageinTest, bool isPrd)
         {
-            if (packageinTest == "SFA.Roatp.Api.Client" && isPrd)
-            {
-                return "https://roatp.apprenticeships.sfa.bis.gov.uk";
-            }
-            else if(packageinTest == "SFA.Roatp.Api.Client" && isPrd == false)
-            {
-                return "https://pp-roatp.apprenticeships.sfa.bis.gov.uk";
-            }
-            else if (packageinTest != "SFA.Roatp.Api.Client" && isPrd == false)
-            {
-                return "http://das-pp-apprenticeshipinfoservice.cloudapp.net";
-            }
-
-            return "http://das-prd-apprenticeshipinfoservice.cloudapp.net";
+            return isPrd ? GetProdbaseUri(packageinTest) : GetPreprodbaseUri(packageinTest);
         }
 
         public static object GetDefaultParamValue(string paramName, string paramtypeName)
@@ -79,8 +71,10 @@ namespace Sfa.ApiClient.Tests
                     return standardid;
 
                 case "frameworkid":
-                case "frameworkcode":
                     return frameworkid;
+
+                case "frameworkcode":
+                    return frameworkcode;
 
                 case "pathwaycode":
                     return pathwaycode;
